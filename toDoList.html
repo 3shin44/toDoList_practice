@@ -6,11 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>toDoList</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js" integrity="sha512-XdUZ5nrNkVySQBnnM5vzDqHai823Spoq1W3pJoQwomQja+o4Nw0Ew1ppxo5bhF2vMug6sfibhKWcNJsG8Vj9tg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="./toDoList.css">
+    <link rel="stylesheet" href="./CSS/reset200802.css">
+    <link rel="stylesheet" href="./CSS/toDoList.css">
 </head>
 <body>
     <div id="app">
-        <h1 class="top">To Do List</h1>
+        <div class="titleBar">
+            <h1 class="top">To Do List</h1>
+            <button id="themeSwitcher">Theme Switcher</button>
+        </div>
+        
         <div class="wrapper">
           <div class="controls">
             <input v-model="newTodo" @keyup.enter="addTodo" type="text" placeholder="輸入代辦事項" autofocus>
@@ -32,58 +37,7 @@
     </div>
 
 
-    <script>
-        Vue.component('todo-item', {
-        props: ['title', 'completed'],
-        template: `
-            <li>
-                <button class="btn"
-                    v-bind:class="{ done: this.completed }"
-                    v-on:click="$emit('toggle')">
-                    完成
-                </button>
-                <button class="btn"
-                    v-bind:class="{ delete: this.completed }"
-                    v-on:click="$emit('delete')">刪除
-                </button>
-                <span v-bind:class="{ completed: this.completed }">
-                    {{this.title}}
-                </span>
-            </li>
-            `,
-        });
-
-        const app = new Vue({
-        el: '#app',
-        data: {
-            newTodo: '',
-            search: '',
-            todos: [{ title: 'Just a todo', completed: true} ]
-        },
-        methods: {
-            addTodo() {
-            if (!this.newTodo.trim()) return;
-            this.todos.push({ title: this.newTodo, completed: false });
-            this.newTodo = '';
-            },
-            
-            toggle(index) {
-            this.todos[index].completed = !this.todos[index].completed;
-            },
-            
-            deleteTodo(index) {
-            this.todos.splice(index, 1);
-            },
-
-            clearTodos() {
-            if (this.todos.length < 1) return;
-            if (confirm('Want to clear all todos?')) {
-                this.todos = [];
-            }
-            }
-        }
-        });
-    </script>
+<script src="./JS/toDoList.js"></script>
 
 </body>
 </html>
