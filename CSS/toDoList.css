@@ -107,3 +107,16 @@ button.remove:hover {
 .search input{
   width: 50%;
 }
+
+.editorBox{
+  padding: 15px;
+  display: block; 
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+.editorBox button{
+  margin-left: 50%;
+  transform: translateX(-50%);
+}

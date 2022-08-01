@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>toDoList</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js" integrity="sha512-XdUZ5nrNkVySQBnnM5vzDqHai823Spoq1W3pJoQwomQja+o4Nw0Ew1ppxo5bhF2vMug6sfibhKWcNJsG8Vj9tg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
     <link rel="stylesheet" href="./CSS/reset200802.css">
     <link rel="stylesheet" href="./CSS/toDoList.css">
 </head>
@@ -13,7 +14,7 @@
     <div id="app">
         <div class="titleBar">
             <h1 class="top">To Do List</h1>
-            <button id="themeSwitcher">Theme Switcher</button>
+            <button id="themeSwitcher" @click="themeSwitcher">Light</button>
         </div>
         
         <div class="wrapper">
@@ -29,6 +30,7 @@
             <todo-item v-for="(todo, index) in todos"
                 v-bind:title="todo.title"
                 v-bind:completed="todo.completed"
+                v-bind:index="index"
                 v-on:toggle="toggle(index)"
                 v-on:delete="deleteTodo(index)">
             </todo-item>
@@ -37,7 +39,15 @@
     </div>
 
 
+    <div id="ckEditor"></div>
+
+
+
+
+
 <script src="./JS/toDoList.js"></script>
+<script src="./JS/ckEditor.js"></script>
 
 </body>
 </html>
+
