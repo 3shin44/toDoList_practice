@@ -29,12 +29,18 @@ body {
 
 .controls {
     display: flex;
-    flex-flow: row wrap;
     justify-content: space-around;
+    padding: 5px;
 }
 
 .controls input {
-    flex: 8;
+    width: 75%;
+}
+.controls div{
+    width: 25%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
 }
 
 .completed {
@@ -66,38 +72,51 @@ li {
     font-size: 1em;
 }
 
-button {
+.btn_general {
     color: #fff;
     border: none;
-    border-radius: 2px 2px 2px 2px;
+    border-radius: 2px;
     padding: 8px;
     margin-left: 8px;
     text-transform: uppercase;
     font-weight: 800;
 }
 
-button.add {
+.btn_main{
+    border: none;
+    height: fit-content;
+    font-size: 10px;
+    font-weight: bold;
+    color: rgb(79, 79, 79);
+    border-radius: 2px;
+    padding: 8px;
+    margin-left: 8px;
+}
+
+.btn_main.add {
+    color: rgb(232, 232, 232);
     background-color: #009933;
 }
 
-button.add:hover {
-    background-color: #007a29;
+.btn_main.add:hover {
+    color: rgb(56, 56, 56);
+    background-color: #14d253;
 }
 
-button.remove {
+.btn_main.remove {
     background-color: #dc143c;
 }
 
-button.remove:hover {
+.btn_main.remove:hover {
     background-color: #b01030;
 }
 
-button.clear{
+.btn_main.clear{
     color: rgb(115, 115, 115);
 }
-button.clear:hover{
+.btn_main.clear:hover{
     color: rgb(198, 198, 198);
-    background-color: rgb(125, 125, 125);
+    background-color: rgb(71, 71, 71);
 }
 
 .btn {
@@ -125,11 +144,60 @@ button.clear:hover{
 .search {
     padding: 5px;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .search input {
-    width: 50%;
+    width: 75%;
+}
+.search div {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+/* 待辦事項類型分類 */
+#completedTask, #newTask{
+    position: absolute;
+    left: -3000px;
+}
+
+/* 開發觀察用 */
+/* #completedTask{
+    position: absolute;
+    left: 10px;
+}
+#newTas{
+    position: absolute;
+    left: 50px;
+} */
+
+
+.completedTaskLabel, .newTaskLabel{
+    --checkedBcg: #8ee140;
+    --checkedColor: rgb(79, 79, 79);
+    --notcheckedBcg: #686868;
+    --notcheckedColor: rgb(232, 232, 232);
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--notcheckedColor);
+    background-color: var(--notcheckedBcg);
+    border-radius: 2px;
+    padding: 8px;
+    margin-left: 8px;
+}
+
+
+#completedTask:checked + .completedTaskLabel {
+    background-color: var(--checkedBcg);
+    color: var(--checkedColor);
+}
+
+#newTask:checked + .newTaskLabel {
+    background-color: var(--checkedBcg);
+    color: var(--checkedColor);
 }
 
 .editorBox {
@@ -149,3 +217,5 @@ button.clear:hover{
 .hide_task{
     display: none;
 }
+
+
