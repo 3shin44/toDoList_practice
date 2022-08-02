@@ -1,20 +1,22 @@
+// Vue.config.debug = true;
+// Vue.config.devtools = true;
 
 Vue.component('todo-item', {
 props: ['title', 'completed', "index", "hide"],
 template: `
-    <li v-bind:class="{ hide_task: hide }">
+    <li class="todoItem"  v-bind:class="{ hide_task: hide }">
         <button class="btn_general btn done"
-            v-on:click="$emit('toggle')">
+            @click="$emit('toggle')">
             完成
         </button>
         <button class="btn_general btn delete"
-            v-on:click="$emit('delete')">刪除
+            @click="$emit('delete')">刪除
         </button>
         <button class="btn_general btn edit"
-            v-on:click="app.editBox(index)">編輯
+            @click="app.editBox(index)">編輯
         </button>
         <button class="btn_general btn copy"
-            v-on:click="app.copyTask(index)">複製
+            @click="app.copyTask(index)">複製
         </button>  
         <span v-bind:class="{ completed: this.completed }">
             {{this.title}}
@@ -28,13 +30,14 @@ el: '#app',
 data: {
     newTodo: '',
     search: '',
-    todos: [{ title: '待處理項目', completed: true, hide: false}]
+    todos: [{ title: '待處理項目', completed: true, hide: false, tagList: ["tag2", "tag3"] }],
     // todos: [{ title: 'Just a todo', completed: true, hide: false} ]
+    userDefineTags: ["tag1", "tag2", "tag3"]
 },
 methods: {
     addTodo() {
     if (!this.newTodo.trim()) return;
-    this.todos.push( { title: this.newTodo, completed: false, hide: false} );
+    this.todos.push( { title: this.newTodo, completed: false, hide: false, tagList: [] } );
     this.newTodo = '';
     },
     

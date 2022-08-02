@@ -5,9 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>toDoList</title>
+	<!-- import cdn: vue, ckeditor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js" integrity="sha512-XdUZ5nrNkVySQBnnM5vzDqHai823Spoq1W3pJoQwomQja+o4Nw0Ew1ppxo5bhF2vMug6sfibhKWcNJsG8Vj9tg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
-    <link rel="stylesheet" href="./CSS/reset200802.css">
+    
+	<!-- import css: reset, mainPage, themeSwitch -->
+	<link rel="stylesheet" href="./CSS/reset200802.css">
     <link rel="stylesheet" href="./CSS/toDoList.css">
     <link rel="stylesheet" href="./CSS/themeSwitcher.css">
 </head>
@@ -53,9 +56,16 @@
             </todo-item>
           </ul>
         </div>
+
+		<div id="tagsBox">
+			<!-- render tags here -->
+		</div>
+
     </div>
 
     <div id="ckEditor"></div>
+
+	
 
 <script src="./JS/toDoList.js"></script>
 <script src="./JS/ckEditor.js"></script>

@@ -158,6 +158,15 @@ li {
     justify-content: start;
 }
 
+/* 代辦事項清單 */
+.todoItem{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+
+
 /* 待辦事項類型分類 */
 #completedTask, #newTask{
     position: absolute;
@@ -200,6 +209,7 @@ li {
     color: var(--checkedColor);
 }
 
+
 .editorBox {
     padding: 15px;
     display: block;
@@ -219,3 +229,13 @@ li {
 }
 
 
+/* tags彈窗 */
+#tagsBox{
+    position: fixed;
+    width: 70%;
+    background-color: gray;
+    bottom: 20%;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
