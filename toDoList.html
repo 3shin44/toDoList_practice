@@ -31,13 +31,14 @@
             <button class="clear" v-on:click="clearTodos">清除</button>
           </div>
           <div class="search">
-            <input v-model="search" @keyup.enter="searchText" type="text" placeholder="搜尋代辦事項">
+            <input v-model="search" @keyup="searchText" type="text" placeholder="搜尋代辦事項">
           </div>
           <ul>
             <todo-item v-for="(todo, index) in todos"
                 v-bind:title="todo.title"
                 v-bind:completed="todo.completed"
                 v-bind:index="index"
+                v-bind:hide="todo.hide"
                 v-on:toggle="toggle(index)"
                 v-on:delete="deleteTodo(index)">
             </todo-item>

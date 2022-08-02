@@ -1,27 +1,24 @@
 
 Vue.component('todo-item', {
-props: ['title', 'completed', "index", "displayStatus"],
+props: ['title', 'completed', "index", "hide"],
 template: `
-    <li class="displayStatus" v-bind:class="{ displayStatus: this.displayStatus }">
+    <li v-bind:class="{ hide_task: hide }">
         <button class="btn done"
-            v-bind:class="{ done: this.completed }"
             v-on:click="$emit('toggle')">
             完成
         </button>
         <button class="btn delete"
-            v-bind:class="{ delete: this.completed }"
             v-on:click="$emit('delete')">刪除
         </button>
-        <button class="btn"
+        <button class="btn edit"
             v-on:click="app.editBox(index)">編輯
         </button>
-        <button class="btn"
+        <button class="btn copy"
             v-on:click="app.copyTask(index)">複製
         </button>  
         <span v-bind:class="{ completed: this.completed }">
             {{this.title}}
         </span>
-   
     </li>
     `,
 });
@@ -31,12 +28,13 @@ el: '#app',
 data: {
     newTodo: '',
     search: '',
-    todos: [{ title: 'Just a todo', completed: true, displayStatus: "show"} ]
+    todos: [{ title: '待處理項目', completed: true, hide: false}]
+    // todos: [{ title: 'Just a todo', completed: true, hide: false} ]
 },
 methods: {
     addTodo() {
     if (!this.newTodo.trim()) return;
-    this.todos.push({ title: this.newTodo, completed: false, displayStatus: "show"});
+    this.todos.push( { title: this.newTodo, completed: false, hide: false} );
     this.newTodo = '';
     },
     
@@ -50,37 +48,39 @@ methods: {
 
     clearTodos() {
     if (this.todos.length < 1) return;
-    if (confirm('Want to clear all todos?')) {
+    if (confirm('確認清除所有事項?')) {
         this.todos = [];
     }
     },
 
     themeSwitcher(e){
+        // 暫時關閉localStorage功能
 
         const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
-        const currentTheme = localStorage.getItem('theme');
+        // const currentTheme = localStorage.getItem('theme');
         const themeStatus = document.querySelector('.theme-switch-wrapper p');
 
-        if (currentTheme) {
-            document.documentElement.setAttribute('data-theme', currentTheme);
+        // if (currentTheme) {
+        //     document.documentElement.setAttribute('data-theme', currentTheme);
         
-            if (currentTheme === 'dark') {
-                toggleSwitch.checked = true;
-            }
-        }
+        //     if (currentTheme === 'dark') {
+        //         toggleSwitch.checked = true;
+        //     }
+        // }
 
         if (e.target.checked) {
             document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
+            // localStorage.setItem('theme', 'dark');
             themeStatus.innerHTML = "Dark Mode";
         }
         else {        
             document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
+            // localStorage.setItem('theme', 'light');
             themeStatus.innerHTML = "Light Mode";
         }
 
-        toggleSwitch.addEventListener('change', switchTheme, false);
+        // 呼叫函示功能已由VUE觸發, 事件聆聽不需使用 (確認後移除)
+        // toggleSwitch.addEventListener('change', switchTheme, false);
     },
 
     editBox(index){
@@ -89,6 +89,26 @@ methods: {
 
     copyTask(index){
         this.todos.push({ title: this.todos[index].title, completed: this.todos[index].completed});
+    },
+
+    searchText(){
+        if(this.search.length == 0){
+            // 若沒有輸入則全部顯示代辦事項
+            for(let i=0; i<this.todos.length; i++){
+                this.todos[i].hide = false;
+            }
+        }else{
+            // 使用者輸入後開始一個一個比對, 有含關鍵字就不隱藏, 不含就藏起來
+            for(let i=0; i<this.todos.length; i++){
+                if( this.todos[i].title.includes(this.search) ){
+                    this.todos[i].hide = false;
+                }else{
+                    this.todos[i].hide = true;
+                }
+            }
+        }
+
+
     }
 }
 });

@@ -92,6 +92,14 @@ button.remove:hover {
     background-color: #b01030;
 }
 
+button.clear{
+    color: rgb(115, 115, 115);
+}
+button.clear:hover{
+    color: rgb(198, 198, 198);
+    background-color: rgb(125, 125, 125);
+}
+
 .btn {
     background-color: #ccc;
     padding: 2px 4px 2px 4px;
@@ -104,6 +112,14 @@ button.remove:hover {
 
 .delete:hover {
     background-color: #b01030;
+}
+
+.btn.edit:hover {
+    background-color: rgb(255, 205, 129);
+}
+
+.btn.copy:hover {
+    background-color: rgb(106, 65, 255);
 }
 
 .search {
@@ -128,4 +144,8 @@ button.remove:hover {
 .editorBox button {
     margin-left: 50%;
     transform: translateX(-50%);
+}
+
+.hide_task{
+    display: none;
 }
