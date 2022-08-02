@@ -27,11 +27,20 @@
         <div class="wrapper">
           <div class="controls">
             <input v-model="newTodo" @keyup.enter="addTodo" type="text" placeholder="輸入代辦事項" autofocus>
-            <button class="add" v-on:click="addTodo">新增</button>
-            <button class="clear" v-on:click="clearTodos">清除</button>
+			<div>
+				<button class="btn_main add" v-on:click="addTodo">新增</button>
+				<button class="btn_main clear" v-on:click="clearTodos">清除</button>
+			</div>
           </div>
           <div class="search">
             <input v-model="search" @keyup="searchText" type="text" placeholder="搜尋代辦事項">
+			<div>
+				<input type="checkbox" name="completedTask" id="completedTask" @change="taskFilter" checked=true>
+				<label for="completedTask" class="completedTaskLabel">完成</label>
+	
+				<input type="checkbox" name="newTask" id="newTask" @change="taskFilter" checked=true>
+				<label for="newTask" class="newTaskLabel">待辦</label>
+			</div>
           </div>
           <ul>
             <todo-item v-for="(todo, index) in todos"
@@ -46,12 +55,7 @@
         </div>
     </div>
 
-
     <div id="ckEditor"></div>
-
-
-
-
 
 <script src="./JS/toDoList.js"></script>
 <script src="./JS/ckEditor.js"></script>

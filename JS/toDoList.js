@@ -3,17 +3,17 @@ Vue.component('todo-item', {
 props: ['title', 'completed', "index", "hide"],
 template: `
     <li v-bind:class="{ hide_task: hide }">
-        <button class="btn done"
+        <button class="btn_general btn done"
             v-on:click="$emit('toggle')">
             完成
         </button>
-        <button class="btn delete"
+        <button class="btn_general btn delete"
             v-on:click="$emit('delete')">刪除
         </button>
-        <button class="btn edit"
+        <button class="btn_general btn edit"
             v-on:click="app.editBox(index)">編輯
         </button>
-        <button class="btn copy"
+        <button class="btn_general btn copy"
             v-on:click="app.copyTask(index)">複製
         </button>  
         <span v-bind:class="{ completed: this.completed }">
@@ -54,7 +54,7 @@ methods: {
     },
 
     themeSwitcher(e){
-        // 暫時關閉localStorage功能
+        // 暫關閉localStorage功能
 
         const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
         // const currentTheme = localStorage.getItem('theme');
@@ -107,8 +107,60 @@ methods: {
                 }
             }
         }
+    },
 
+    taskFilter(){
+        let completedTask = document.getElementById("completedTask");
+        let newTask = document.getElementById("newTask");   
+        let caseSwtich = "both";
+
+        // ugly method: 判斷選取類型 再去switch後續處理
+
+        if ( completedTask.checked && newTask.checked){
+            caseSwtich = "both";
+        }else if (completedTask.checked && !newTask.checked) {
+            caseSwtich = "completedTask";
+        }else if (!completedTask.checked && newTask.checked) {
+            caseSwtich = "newTask";
+        }else{
+            caseSwtich = "noneOfAll";
+        };
+
+        switch (caseSwtich) {
+            case "both":
+                for(let i=0; i<this.todos.length; i++){
+                    this.todos[i].hide = false;
+                }
+            break;
+
+            case "completedTask":
+                for(let i=0; i<this.todos.length; i++){
+                    if(this.todos[i].completed){
+                        this.todos[i].hide = false;
+                    }else{
+                        this.todos[i].hide = true;
+                    }  
+                }
+            break;
+
+            case "newTask":
+                for(let i=0; i<this.todos.length; i++){
+                    if(!this.todos[i].completed){
+                        this.todos[i].hide = false;
+                    }else{
+                        this.todos[i].hide = true;
+                    }  
+                }
+            break;
+        
+            case "noneOfAll":
+                for(let i=0; i<this.todos.length; i++){
+                    this.todos[i].hide = true;
+                }
+            break;
+        }
 
     }
+
 }
 });
