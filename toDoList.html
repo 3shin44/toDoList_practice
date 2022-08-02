@@ -9,12 +9,19 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
     <link rel="stylesheet" href="./CSS/reset200802.css">
     <link rel="stylesheet" href="./CSS/toDoList.css">
+    <link rel="stylesheet" href="./CSS/themeSwitcher.css">
 </head>
 <body>
     <div id="app">
         <div class="titleBar">
             <h1 class="top">To Do List</h1>
-            <button id="themeSwitcher" @click="themeSwitcher">Light</button>
+            <div class="theme-switch-wrapper" id="themeSwitcher" @click="themeSwitcher">
+              <p>Light Mode</p>
+              <label class="theme-switch" for="checkbox">
+                  <input type="checkbox" id="checkbox" />
+                  <div class="slider round"></div>
+              </label>
+          </div>
         </div>
         
         <div class="wrapper">

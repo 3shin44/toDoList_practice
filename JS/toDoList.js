@@ -12,9 +12,12 @@ template: `
             v-bind:class="{ delete: this.completed }"
             v-on:click="$emit('delete')">刪除
         </button>
-        <button class="btn edit"
+        <button class="btn"
             v-on:click="app.editBox(index)">編輯
-        </button>   
+        </button>
+        <button class="btn"
+            v-on:click="app.copyTask(index)">複製
+        </button>  
         <span v-bind:class="{ completed: this.completed }">
             {{this.title}}
         </span>
@@ -52,18 +55,40 @@ methods: {
     }
     },
 
-    themeSwitcher(){
-        let switcherBtn = document.getElementById("themeSwitcher");
-        if(switcherBtn.innerHTML == "Light"){
-            switcherBtn.innerHTML = "Dark";
+    themeSwitcher(e){
+
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const currentTheme = localStorage.getItem('theme');
+        const themeStatus = document.querySelector('.theme-switch-wrapper p');
+
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+        
+            if (currentTheme === 'dark') {
+                toggleSwitch.checked = true;
+            }
         }
-        else{
-            switcherBtn.innerHTML = "Light";
+
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            themeStatus.innerHTML = "Dark Mode";
         }
+        else {        
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            themeStatus.innerHTML = "Light Mode";
+        }
+
+        toggleSwitch.addEventListener('change', switchTheme, false);
     },
 
     editBox(index){
         document.querySelector(".ck-editor__main p").innerHTML = this.todos[index].title;
+    },
+
+    copyTask(index){
+        this.todos.push({ title: this.todos[index].title, completed: this.todos[index].completed});
     }
 }
 });

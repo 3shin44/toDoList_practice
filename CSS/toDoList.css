@@ -1,122 +1,131 @@
-body {
-  font-family: "Segoe UI";
-  font-size: 1.5em;
+h1 {
+    color: var(--secondary-color);
 }
 
-.titleBar{
-  position: relative;
-  padding: 15px;
-  background-color: #ffa500;
+
+body {
+    font-family: "Segoe UI";
+    font-size: 1.5em;
+    background-color: var(--bg-color);
+    color: var(--font-color);
 }
-#themeSwitcher{
-  position: absolute;
-  width: fit-content;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #007a29;
+
+.titleBar {
+    position: relative;
+    padding: 15px;
+    background-color: var(--heading-color);
+}
+
+#themeSwitcher {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .wrapper {
-  padding: 20px;
+    padding: 20px;
 }
 
 .controls {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
 }
+
 .controls input {
-  flex: 8;
+    flex: 8;
 }
 
 .completed {
-  text-decoration: line-through;
-  color: gray;
+    text-decoration: line-through;
+    color: gray;
 }
 
 .top {
-  
-  width: 100%;
-  color: #444;
-  text-align: center;
-  margin-top: 0;
+    width: 100%;
+    color: #444;
+    text-align: center;
+    margin-top: 0;
 }
 
 input {
-  padding: 8px;
-  border-radius: 4px 4px 4px 4px;
-  background-color: #fff;
-  width: 40%;
+    padding: 8px;
+    border-radius: 4px 4px 4px 4px;
+    background-color: #fff;
+    width: 40%;
 }
 
 ul {
-  padding: 0;
+    padding: 0;
 }
 
 li {
-  list-style: none;
-  padding: 8px;
-  font-size: 1em;
+    list-style: none;
+    padding: 8px;
+    font-size: 1em;
 }
 
 button {
-  color: #fff;
-  border: none;
-  border-radius: 2px 2px 2px 2px;
-  padding: 8px;
-  margin-left: 8px;
-  text-transform: uppercase;
-  font-weight: 800;
+    color: #fff;
+    border: none;
+    border-radius: 2px 2px 2px 2px;
+    padding: 8px;
+    margin-left: 8px;
+    text-transform: uppercase;
+    font-weight: 800;
 }
 
 button.add {
-  background-color: #009933;
+    background-color: #009933;
 }
 
 button.add:hover {
-  background-color: #007a29;
+    background-color: #007a29;
 }
 
 button.remove {
-  background-color: #dc143c;
+    background-color: #dc143c;
 }
 
 button.remove:hover {
-  background-color: #b01030;
+    background-color: #b01030;
 }
 
 .btn {
-  background-color: #ccc;
-  padding: 2px 4px 2px 4px;
-  margin: auto 2px auto 0px;
+    background-color: #ccc;
+    padding: 2px 4px 2px 4px;
+    margin: auto 2px auto 0px;
 }
 
 .done:hover {
-  background-color: #007a29;
+    background-color: #007a29;
 }
 
 .delete:hover {
-  background-color: #b01030;
-}
-.search{
-  padding: 5px;
-  display: flex;
-  justify-content: center;
-}
-.search input{
-  width: 50%;
+    background-color: #b01030;
 }
 
-.editorBox{
-  padding: 15px;
-  display: block; 
-  position: fixed;
-  left: 0;
-  right: 0;
-  width: 100%;
+.search {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
 }
-.editorBox button{
-  margin-left: 50%;
-  transform: translateX(-50%);
+
+.search input {
+    width: 50%;
+}
+
+.editorBox {
+    padding: 15px;
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+
+.editorBox button {
+    margin-left: 50%;
+    transform: translateX(-50%);
 }
