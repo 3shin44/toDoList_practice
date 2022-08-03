@@ -1,75 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>toDoList</title>
-	<!-- import cdn: vue, ckeditor -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js" integrity="sha512-XdUZ5nrNkVySQBnnM5vzDqHai823Spoq1W3pJoQwomQja+o4Nw0Ew1ppxo5bhF2vMug6sfibhKWcNJsG8Vj9tg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
-    
-	<!-- import css: reset, mainPage, themeSwitch -->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>toDoList</title>
+	<!-- 由 cdn 匯入: vue, ckeditor -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js" integrity="sha512-XdUZ5nrNkVySQBnnM5vzDqHai823Spoq1W3pJoQwomQja+o4Nw0Ew1ppxo5bhF2vMug6sfibhKWcNJsG8Vj9tg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+
+	
+	<!-- 連結之CSS順序: CSS reset, themeSwitch, mainPage(toDoList)  -->
 	<link rel="stylesheet" href="./CSS/reset200802.css">
-    <link rel="stylesheet" href="./CSS/toDoList.css">
-    <link rel="stylesheet" href="./CSS/themeSwitcher.css">
+	<link rel="stylesheet" href="./CSS/themeSwitcher.css">
+	<link rel="stylesheet" href="./CSS/toDoList.css">
+
 </head>
 <body>
-    <div id="app">
-        <div class="titleBar">
-            <h1 class="top">To Do List</h1>
-            <div class="theme-switch-wrapper" id="themeSwitcher" @click="themeSwitcher">
-              <p>Light Mode</p>
-              <label class="theme-switch" for="checkbox">
-                  <input type="checkbox" id="checkbox" />
-                  <div class="slider round"></div>
-              </label>
-          </div>
-        </div>
-        
-        <div class="wrapper">
-          <div class="controls">
-            <input v-model="newTodo" @keyup.enter="addTodo" type="text" placeholder="輸入代辦事項" autofocus>
-			<div>
-				<button class="btn_main add" v-on:click="addTodo">新增</button>
-				<button class="btn_main clear" v-on:click="clearTodos">清除</button>
-			</div>
-          </div>
-          <div class="search">
-            <input v-model="search" @keyup="searchText" type="text" placeholder="搜尋代辦事項">
-			<div>
-				<input type="checkbox" name="completedTask" id="completedTask" @change="taskFilter" checked=true>
-				<label for="completedTask" class="completedTaskLabel">完成</label>
-	
-				<input type="checkbox" name="newTask" id="newTask" @change="taskFilter" checked=true>
-				<label for="newTask" class="newTaskLabel">待辦</label>
-			</div>
-          </div>
-          <ul>
-            <todo-item v-for="(todo, index) in todos"
-                v-bind:title="todo.title"
-                v-bind:completed="todo.completed"
-                v-bind:index="index"
-                v-bind:hide="todo.hide"
-                v-on:toggle="toggle(index)"
-                v-on:delete="deleteTodo(index)">
-            </todo-item>
-          </ul>
-        </div>
-
-		<div id="tagsBox">
-			<!-- render tags here -->
+	<!-- Vue 物件 -->
+	<div id="app">
+		<!-- 標題與佈景主題切換器 -->
+		<div class="titleBar">
+			<h1 class="top">To Do List</h1>
+			<div class="theme-switch-wrapper" id="themeSwitcher" @click="themeSwitcher">
+			    <p>Light Mode</p>
+                <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+                </label>
+		    </div>
+		</div>
+		
+		<!-- 輸入/搜尋/標籤建立功能 -->
+		<div class="wrapper">
+		    <div class="controls">
+				<input v-model="newTodo" @keyup.enter="addTodo" type="text" placeholder="輸入待辦事項" autofocus>
+            <div>
+			    <button class="btn_main add" v-on:click="addTodo">新增</button>
+			    <button class="btn_main clear" v-on:click="clearTodos">清除</button>
+            </div>
 		</div>
 
-    </div>
+        <div class="tagCreator">
+            <input type="text" id="tagCreator" placeholder="輸入類別標籤 (使用按鈕或ENTER新增)" v-model="inputTag" @keyup.enter="createTag()" @focus="openTagPanel(1)" @blur="openTagPanel(1)">
+            <div>
+                <button class="btn_main add" @click="createTag(); openTagPanel(2)">新增</button>
+                <button class="btn_main clear" @click="deleteAllTag(); openTagPanel(2)">清除</button>
+            </div>
 
-    <div id="ckEditor"></div>
+        </div>
 
+        <div class="search">
+            <input v-model="search" @keyup="searchText" type="text" placeholder="搜尋待辦事項">
+            <div>
+                <input type="checkbox" name="completedTask" id="completedTask" @change="taskFilter" checked=true>
+                <label for="completedTask" class="completedTaskLabel">完成</label>
+
+                <input type="checkbox" name="newTask" id="newTask" @change="taskFilter" checked=true>
+                <label for="newTask" class="newTaskLabel">待辦</label>
+            </div>
+        </div>
+
+		<!-- 待辦事項卡片清單 -->
+		<ul>
+			<todo-item v-for="(todo, index) in todos"
+				v-bind:title="todo.title"
+				v-bind:completed="todo.completed"
+				v-bind:index="index"
+				v-bind:hide="todo.hide"
+				v-bind:task_tag="todo.taskTag"
+				v-on:toggle="toggle(index)"
+				v-on:delete="deleteTodo(index)">
+			</todo-item>
+		</ul>
+		<!-- </div> -->
+
+		<!-- 新增標籤面板 -->
+		<div id="tagsBox">
+            <div class="tags">
+                <div v-for="(_tag, index) in tagsArray" :key="index" class="tag" @click="removeTag(index)">{{ _tag }}</div>
+            </div>
+            <button id="tagsBoxClose" @click="openTagPanel()">x</button>
+		</div>
+
+		<!-- 待辦事項 標籤管理面板 -->
+		<div id="taskTagBox">
+			<task-tag class="taskTags">
+
+			</task-tag>
+			<button id="taskTagsBoxClose" @click="openTaskTagPanel()">x</button>
+		</div>
+	</div>
+
+	<!-- CK文字編輯器 -->
+	<div id="ckEditor"></div>
 	
-
-<script src="./JS/toDoList.js"></script>
 <script src="./JS/ckEditor.js"></script>
+<script src="./JS/toDoList.js"></script>
 
 </body>
 </html>
+
 

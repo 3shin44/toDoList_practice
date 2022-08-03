@@ -27,6 +27,7 @@ body {
     padding: 20px;
 }
 
+/* 使用者輸入功能: 事項 標籤 搜尋 */
 .controls {
     display: flex;
     justify-content: space-around;
@@ -41,6 +42,23 @@ body {
     display: flex;
     justify-content: start;
     align-items: center;
+}
+
+.search, .tagCreator{
+    padding: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.search input, .tagCreator input {
+    width: 75%;
+}
+.search div, .tagCreator div {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }
 
 .completed {
@@ -141,31 +159,22 @@ li {
     background-color: rgb(106, 65, 255);
 }
 
-.search {
-    padding: 5px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+.tagBtn:hover{
+    background-color: #007a29;
 }
 
-.search input {
-    width: 75%;
-}
-.search div {
-    width: 25%;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-}
+
 
 /* 代辦事項清單 */
-.todoItem{
+.taskCard{
     display: flex;
     justify-content: start;
     align-items: center;
 }
 
-
+.taskCard span{
+    margin-left: 5px;
+}
 
 /* 待辦事項類型分類 */
 #completedTask, #newTask{
@@ -229,13 +238,125 @@ li {
 }
 
 
-/* tags彈窗 */
+/* tags管理面板 */
 #tagsBox{
+    /* display: block; */
+    display: none;
     position: fixed;
-    width: 70%;
-    background-color: gray;
+    z-index: 10;
     bottom: 20%;
     left: 0;
     right: 0;
     margin: auto;
+    width: 70%;
+    background-color: rgba(253, 143, 69, 0.3);
+    border-radius: 5px;
+}
+
+#tagsBoxClose{
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate3d(45%, -45%, 0);
+    border: none;
+    color: #d50731;
+    background-color: rgb(251, 191, 179);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    padding: 5px;
+    font-weight: bold;
+}
+
+#tagsBoxClose:hover{
+    color: #dc143c;
+    background-color: rgb(228, 150, 135);
+}
+
+.tags{
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tag {
+	position: relative;
+	display: inline-block;
+	margin: 5px;
+	padding: 5px 30px 5px 5px;
+	color: #333;
+	background: #fff;
+	border: 1px solid #0064b7;
+	border-radius: 5px;
+	cursor: pointer;
+    font-size: 15px;
+}
+.tag:after {
+    position: absolute;
+    right: 10px;
+    color: #b4252d;
+    content: "×";
+}
+
+/* 事項tags管理面板 */
+#taskTagBox{
+    /* display: block; */
+    display: none;
+    position: fixed;
+    z-index: 10;
+    bottom: 20%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 70%;
+    background-color: rgba(133, 253, 69, 0.3);
+    border-radius: 5px;
+}
+
+#taskTagsBoxClose{
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate3d(45%, -45%, 0);
+    border: none;
+    color: #d50731;
+    background-color: rgb(251, 191, 179);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    padding: 5px;
+    font-weight: bold;
+}
+
+#taskTagsBoxClose:hover{
+    color: #dc143c;
+    background-color: rgb(228, 150, 135);
+}
+
+.taskTagContainer{
+    display: flex;
+}
+
+.taskTagsRow{
+    display: flex;
+}
+
+.taskTag{
+    position: relative;
+	display: inline-block;
+	margin: 5px;
+	padding: 5px 30px 5px 5px;
+	color: #333;
+	background: #fff;
+	border: 1px solid #0064b7;
+	border-radius: 5px;
+	cursor: pointer;
+    font-size: 10px;
+}
+.taskTag:after {
+    position: absolute;
+    right: 10px;
+    color: #253bb4;
+    content: "o";
 }
