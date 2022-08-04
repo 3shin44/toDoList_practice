@@ -30,15 +30,15 @@ body {
 /* 使用者輸入功能: 事項 標籤 搜尋 */
 .controls {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     padding: 5px;
 }
 
 .controls input {
-    width: 75%;
+    min-width: 75%;
 }
 .controls div{
-    width: 25%;
+    width: fit-content;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -47,15 +47,15 @@ body {
 .search, .tagCreator{
     padding: 5px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
 }
 
 .search input, .tagCreator input {
-    width: 75%;
+    min-width: 75%;
 }
 .search div, .tagCreator div {
-    width: 25%;
+    width: fit-content;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -301,7 +301,7 @@ li {
 
 /* 事項tags管理面板 */
 #taskTagBox{
-    /* display: block; */
+    display: block;
     display: none;
     position: fixed;
     z-index: 10;

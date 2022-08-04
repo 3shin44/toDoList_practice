@@ -42,11 +42,11 @@ Vue.component('todo-item', {
 });
 
 Vue.component('task-tag', {
-    props: [],
+    props: ["task_tag"],
     // 每個事項的標籤管理
     template: `
         <div class="taskTag">
-            1111
+            demoTag
         </div>
     `,
 });
@@ -56,7 +56,7 @@ const app = new Vue({
     data: {
         newTodo: '',
         search: '',
-        todos: [{ title: '待處理項目', completed: true, hide: false, taskTag: ["tag2", "tag3"] }],
+        todos: [],
         inputTag: '',
         tagsArray: ['never', 'gonna', 'give', 'you', 'up'],
     },
@@ -65,7 +65,7 @@ const app = new Vue({
         // 待辦事項CRUD控制
         addTodo() {
             if (!this.newTodo.trim()) return;
-            this.todos.push({ title: this.newTodo, completed: false, hide: false, taskTag: ['never', 'gonna', 'give', 'you', 'up'] });
+            this.todos.push({ title: this.newTodo, completed: false, hide: false, taskTag: ["tag1", "tag2", "tag3", "tag4", "tag5"] });
             this.newTodo = '';
         },
 
@@ -85,9 +85,50 @@ const app = new Vue({
             }
         },
 
-        // 文字單向編輯
+        // 編輯功能: 點擊後將文字帶入編輯器
         editBox(index) {
-            document.querySelector(".ck-editor__main p").innerHTML = this.todos[index].title;
+            let taskIndex = index;
+
+
+            function resetCKeditor(){
+                
+                // 先清掉預設或先前的p元素
+                let ckEditorText = document.querySelector(".ck-editor__editable_inline p");
+                ckEditorText.remove();
+
+                // 建立新p元素
+                let ckEditorContainer = document.querySelector(".ck-editor__editable_inline");
+                ckEditorContainer.append(document.createElement("p"));
+
+                // 重新獲取元素
+                ckEditorText = document.querySelector(".ck-editor__main p");
+
+                // 返回新元素位址
+                return ckEditorText;
+            }
+
+
+            ckEditorText = document.querySelector(".ck-editor__main p");
+            ckEditorText.innerHTML = this.todos[index].title;
+
+            // 問題: 改了一個會連動所有事項
+
+            // function editTaskText(){
+            //     app.todos[taskIndex].title = ckEditorText.innerHTML;
+            // };
+
+            // let ckEditorMain = document.querySelector(".ck-editor__main");
+
+            // ckEditorMain.addEventListener("keyup", (e)=>{
+            //     if (e.key === 'Enter' || e.keyCode === 13){
+            //         app.todos[taskIndex].title = ckEditorText.innerHTML;
+            //         ckEditorText.innerHTML = "";
+            //         ckEditorMain.removeEventListener("keyup", ()=>{
+            //             console.log("remove");
+            //         });
+            //     }
+            // });
+
         },
 
         // 複製事項
@@ -222,6 +263,7 @@ const app = new Vue({
             }
         },
 
+        // 標籤功能 增/刪/重複檢查
         addTag(inputTag){
             this.tagsArray.push(inputTag);
         },
@@ -267,13 +309,24 @@ const app = new Vue({
 
     },
     mounted() {
-        // let taskLocalData = localStorage.setItem('taskLocalData', '');
-        // taskLocalData = localStorage.getItem('taskLocalData');
-        // // check data is exist or not
-        // if (taskLocalData.length == 0){
-        //     console.log("empty");
-        // }else{
-        //     console.log("exist");
-        // }
+
+        taskLocalData = localStorage.getItem('taskLocalData');
+        // check data is exist or not
+        if (taskLocalData == null){
+            taskLocalData = localStorage.setItem('taskLocalData', "");
+        }else{
+            let existDataArray = JSON.parse(taskLocalData);
+            existDataArray.forEach( element => {
+                this.todos.push(element)
+            });
+        }
+    },
+    watch: {
+        todos: function(){
+            // 清除現有資料
+            localStorage.setItem('taskLocalData', '');
+            // 寫入新資料
+            localStorage.setItem('taskLocalData', JSON.stringify(this.todos));
+        }
     },
 });
