@@ -56,10 +56,11 @@ const app = new Vue({
     data: {
         newTodo: '',
         search: '',
-        todos: [],
+        todos: [], // 此為原始資料組
+        demoTodo: [], // 此為展示用資料組
         inputTag: '',
         tagsArray: ['never', 'gonna', 'give', 'you', 'up'],
-        statusFilter: "ALL"
+
     },
     methods: {
 
@@ -170,11 +171,23 @@ const app = new Vue({
             let newTask = document.getElementById("newTask");
             let caseSwtich = "both";
 
+            // 清除舊資料
+            this.demoTodo = [];
             if (completedTask.checked && newTask.checked) {
-                caseSwtich = "both";
-                
+                console.log("both");
+                this.todos.forEach(element => {
+                    this.demoTodo.push(element);
+                });
             } else if (completedTask.checked && !newTask.checked) {
-                caseSwtich = "completedTask";
+                console.log("completedTask");
+                
+                let filterArr = this.todos.filter(element =>{
+                    element.completed == true;
+                });
+
+                filterArr.forEach(element => {
+                    this.demoTodo.push(element);
+                });
             } else if (!completedTask.checked && newTask.checked) {
                 caseSwtich = "newTask";
             } else {
@@ -182,7 +195,10 @@ const app = new Vue({
             };
 
 
-
+            // 簡易處理方法: 顯示用的資料為展示組, 展示組來源為原始資料
+            // 而使用者需要篩選時, 則將原始資料拿來過濾, 做完放到展示組裡
+            // 最後porps展示組
+            // [注意] 若要進行CRUD則需要針對原始資料組進行操作
 
             // // 使用VUE的特性去執行, v-bind去抓完成狀態
             // // 就不用下面整串判斷
