@@ -68,6 +68,7 @@ const app = new Vue({
         addTodo() {
             if (!this.newTodo.trim()) return;
             this.todos.push({ title: this.newTodo, completed: false, hide: false, taskTag: ["tag1", "tag2", "tag3", "tag4", "tag5"] });
+            this.demoTodo.push({ title: this.newTodo, completed: false, hide: false, taskTag: ["tag1", "tag2", "tag3", "tag4", "tag5"] });
             this.newTodo = '';
         },
 
@@ -169,29 +170,30 @@ const app = new Vue({
 
             let completedTask = document.getElementById("completedTask");
             let newTask = document.getElementById("newTask");
-            let caseSwtich = "both";
 
             // 清除舊資料
             this.demoTodo = [];
             if (completedTask.checked && newTask.checked) {
-                console.log("both");
                 this.todos.forEach(element => {
                     this.demoTodo.push(element);
                 });
-            } else if (completedTask.checked && !newTask.checked) {
-                console.log("completedTask");
-                
+            } else if (completedTask.checked && !newTask.checked) {      
                 let filterArr = this.todos.filter(element =>{
-                    element.completed == true;
+                    return element.completed == true;
                 });
 
                 filterArr.forEach(element => {
                     this.demoTodo.push(element);
                 });
             } else if (!completedTask.checked && newTask.checked) {
-                caseSwtich = "newTask";
+                let filterArr = this.todos.filter(element =>{
+                    return element.completed == false;
+                });
+                filterArr.forEach(element => {
+                    this.demoTodo.push(element);
+                });
             } else {
-                caseSwtich = "noneOfAll";
+                this.demoTodo = [];
             };
 
 
@@ -360,7 +362,8 @@ const app = new Vue({
         }else{
             let existDataArray = JSON.parse(taskLocalData);
             existDataArray.forEach( element => {
-                this.todos.push(element)
+                this.todos.push(element);
+                this.demoTodo.push(element);
             });
         }
     },
