@@ -5,10 +5,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>toDoList</title>
-	<!-- 由 cdn 匯入: vue, ckeditor -->
-	<!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
+	<!-- 由 cdn 匯入: vue, ckeditor, fontAwesome -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.common.dev.min.js" integrity="sha512-TpgbLHXaTCAZ7ULhjopb1PveTz5Jx6KEQUtMfXhV0m0EArh+6O8ybZjjDN1Yug6oagN6iFm6EoMjuYSiFr0qXQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js" integrity="sha512-XdUZ5nrNkVySQBnnM5vzDqHai823Spoq1W3pJoQwomQja+o4Nw0Ew1ppxo5bhF2vMug6sfibhKWcNJsG8Vj9tg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+	<!-- <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script> -->
+	<script src="https://kit.fontawesome.com/fff1ca20e5.js" crossorigin="anonymous"></script>
 
 	
 	<!-- 連結之CSS順序: CSS reset, themeSwitch, mainPage(toDoList)  -->
@@ -35,6 +36,8 @@
 		<!-- 輸入/搜尋/標籤建立功能 -->
 		<div class="wrapper">
 		    <div class="controls">
+				<p></p>
+				<i class="fa-solid fa-plus">新增事項</i>
 				<input v-model="newTodo" @keyup.enter="addTodo" type="text" placeholder="輸入待辦事項" autofocus>
             <div>
 			    <button class="btn_main add" v-on:click="addTodo">新增</button>
@@ -43,6 +46,7 @@
 		</div>
 
         <div class="tagCreator">
+			<i class="fa-solid fa-tags">建立標籤</i>
             <input type="text" id="tagCreator" placeholder="輸入類別標籤 (使用按鈕或ENTER新增)" v-model="inputTag" @keyup.enter="createTag()" @focus="openTagPanel(1)" @blur="openTagPanel(1)">
             <div>
                 <button class="btn_main add" @click="createTag(); openTagPanel(2)">新增</button>
@@ -52,8 +56,10 @@
         </div>
 
         <div class="search">
+			<i class="fa-solid fa-magnifying-glass">搜尋事項</i>
             <input v-model="search" @keyup="searchText" type="text" placeholder="搜尋待辦事項">
             <div>
+				
                 <input type="checkbox" name="completedTask" id="completedTask" @change="taskFilter" checked=true>
                 <label for="completedTask" class="completedTaskLabel">完成</label>
 
@@ -63,13 +69,14 @@
         </div>
 
 		<!-- 待辦事項卡片清單 -->
-		<ul>
+		<ul class="taskCardList">
 			<todo-item v-for="(todo, index) in todos"
-				v-bind:title="todo.title"
-				v-bind:completed="todo.completed"
-				v-bind:index="index"
-				v-bind:hide="todo.hide"
-				v-bind:task_tag="todo.taskTag"
+				:title="todo.title"
+				:completed="todo.completed"
+				:index="index"
+				:hide="todo.hide"
+				:task_tag="todo.taskTag"
+
 				v-on:toggle="toggle(index)"
 				v-on:delete="deleteTodo(index)">
 			</todo-item>
@@ -94,9 +101,9 @@
 	</div>
 
 	<!-- CK文字編輯器 -->
-	<div id="ckEditor"></div>
+	<!-- <div id="ckEditor"></div> -->
 	
-<script src="./JS/ckEditor.js"></script>
+<!-- <script src="./JS/ckEditor.js"></script> -->
 <script src="./JS/toDoList.js"></script>
 
 </body>

@@ -1,11 +1,11 @@
-Vue.config.debug = true;
-Vue.config.devtools = true;
+// Vue.config.debug = true;
+// Vue.config.devtools = true;
 
 Vue.component('todo-item', {
     props: ['title', 'completed', "index", "hide", "task_tag"],
     // 每個事項卡片template
     template: `
-    <li class="todoItem"  v-bind:class="{ hide_task: hide }">
+    <li class="todoItem" :class="{ hide_task: hide }">
         <div class="taskCard">
             <button class="btn_general btn done"
                 @click="$emit('toggle')">完成
@@ -59,6 +59,7 @@ const app = new Vue({
         todos: [],
         inputTag: '',
         tagsArray: ['never', 'gonna', 'give', 'you', 'up'],
+        statusFilter: "ALL"
     },
     methods: {
 
@@ -133,11 +134,13 @@ const app = new Vue({
 
         // 複製事項
         copyTask(index) {
+            let replicateTask = JSON.stringify(this.todos[index]);
+            replicateTask = JSON.parse(replicateTask);
             this.todos.push({ 
-                title: this.todos[index].title, 
-                completed: this.todos[index].completed,
-                hide: this.todos[index].hide,
-                taskTag: this.todos[index].taskTag
+                title: replicateTask.title, 
+                completed: replicateTask.completed,
+                hide: replicateTask.hide,
+                taskTag: replicateTask.taskTag
             });
         },
 
@@ -162,13 +165,14 @@ const app = new Vue({
 
         // 待辦事項狀態篩選功能
         taskFilter() {
+
             let completedTask = document.getElementById("completedTask");
             let newTask = document.getElementById("newTask");
             let caseSwtich = "both";
 
-            // 判斷選取類型 再去switch後續處理
             if (completedTask.checked && newTask.checked) {
                 caseSwtich = "both";
+                
             } else if (completedTask.checked && !newTask.checked) {
                 caseSwtich = "completedTask";
             } else if (!completedTask.checked && newTask.checked) {
@@ -177,39 +181,59 @@ const app = new Vue({
                 caseSwtich = "noneOfAll";
             };
 
-            switch (caseSwtich) {
-                case "both":
-                    for (let i = 0; i < this.todos.length; i++) {
-                        this.todos[i].hide = false;
-                    }
-                break;
 
-                case "completedTask":
-                    for (let i = 0; i < this.todos.length; i++) {
-                        if (this.todos[i].completed) {
-                            this.todos[i].hide = false;
-                        } else {
-                            this.todos[i].hide = true;
-                        }
-                    }
-                break;
 
-                case "newTask":
-                    for (let i = 0; i < this.todos.length; i++) {
-                        if (!this.todos[i].completed) {
-                            this.todos[i].hide = false;
-                        } else {
-                            this.todos[i].hide = true;
-                        }
-                    }
-                break;
 
-                case "noneOfAll":
-                    for (let i = 0; i < this.todos.length; i++) {
-                        this.todos[i].hide = true;
-                    }
-                break;
-            }
+            // // 使用VUE的特性去執行, v-bind去抓完成狀態
+            // // 就不用下面整串判斷
+            // let completedTask = document.getElementById("completedTask");
+            // let newTask = document.getElementById("newTask");
+            // let caseSwtich = "both";
+
+            // // 判斷選取類型 再去switch後續處理
+            // if (completedTask.checked && newTask.checked) {
+            //     caseSwtich = "both";
+            // } else if (completedTask.checked && !newTask.checked) {
+            //     caseSwtich = "completedTask";
+            // } else if (!completedTask.checked && newTask.checked) {
+            //     caseSwtich = "newTask";
+            // } else {
+            //     caseSwtich = "noneOfAll";
+            // };
+
+            // switch (caseSwtich) {
+            //     case "both":
+            //         for (let i = 0; i < this.todos.length; i++) {
+            //             this.todos[i].hide = false;
+            //         }
+            //     break;
+
+            //     case "completedTask":
+            //         for (let i = 0; i < this.todos.length; i++) {
+            //             if (this.todos[i].completed) {
+            //                 this.todos[i].hide = false;
+            //             } else {
+            //                 this.todos[i].hide = true;
+            //             }
+            //         }
+            //     break;
+
+            //     case "newTask":
+            //         for (let i = 0; i < this.todos.length; i++) {
+            //             if (!this.todos[i].completed) {
+            //                 this.todos[i].hide = false;
+            //             } else {
+            //                 this.todos[i].hide = true;
+            //             }
+            //         }
+            //     break;
+
+            //     case "noneOfAll":
+            //         for (let i = 0; i < this.todos.length; i++) {
+            //             this.todos[i].hide = true;
+            //         }
+            //     break;
+            // }
         },
 
         // 佈景主題切換
@@ -227,6 +251,9 @@ const app = new Vue({
 
         // 標籤顯示面板
         openTagPanel(tirgger=0){
+
+            // 透過vue bind去解決
+
             // 觸發對象: 0: 預設, 1: tagCreator, 2: tag按鈕
             let tagPanel = document.getElementById("tagsBox");
 
@@ -305,13 +332,13 @@ const app = new Vue({
 
         removeTaskTag(taskIndex, tagIndex){
             this.todos[taskIndex].taskTag.splice(tagIndex, 1);
-        }
+        },
 
     },
-    mounted() {
 
+    mounted() {
         taskLocalData = localStorage.getItem('taskLocalData');
-        // check data is exist or not
+        // 檢查資料是否存在
         if (taskLocalData == null){
             taskLocalData = localStorage.setItem('taskLocalData', "");
         }else{
@@ -321,6 +348,7 @@ const app = new Vue({
             });
         }
     },
+
     watch: {
         todos: function(){
             // 清除現有資料

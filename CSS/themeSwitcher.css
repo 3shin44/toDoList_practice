@@ -5,6 +5,7 @@
     --font-color: #424242;
     --bg-color: #fff;
     --heading-color: #ffbc3e;
+    --card-bcg: rgb(224, 255, 194);
 }
 
 [data-theme="dark"] {
@@ -13,6 +14,7 @@
     --font-color: #e1e1ff;
     --bg-color: #161625;
     --heading-color: #db9513;
+    --card-bcg: rgb(66, 119, 13);
 }
 
 

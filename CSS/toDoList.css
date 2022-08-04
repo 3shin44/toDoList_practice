@@ -27,6 +27,13 @@ body {
     padding: 20px;
 }
 
+/* FontAwesome圖示 */
+.fa-solid{
+    padding: 5px;
+    color: var(--font-color);
+    font-size: 20px;
+}
+
 /* 使用者輸入功能: 事項 標籤 搜尋 */
 .controls {
     display: flex;
@@ -80,14 +87,20 @@ input {
     width: 40%;
 }
 
-ul {
-    padding: 0;
+.taskCardList{
+    margin: auto;
+    max-width: 70%;
+    padding: 15px;
 }
 
 li {
     list-style: none;
     padding: 8px;
     font-size: 1em;
+    background-color: var(--card-bcg);
+    border: 1px solid green;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .btn_general {
@@ -336,6 +349,9 @@ li {
 
 .taskTagContainer{
     display: flex;
+}
+.taskTagContainer button{
+    margin-top: 5px;
 }
 
 .taskTagsRow{
