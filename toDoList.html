@@ -69,14 +69,18 @@
 			<i class="fa-solid fa-magnifying-glass">搜尋事項</i>
             <input v-model="search" @keyup="searchText" type="text" placeholder="搜尋待辦事項">
             <div>
-				
-                <input type="checkbox" name="completedTask" id="completedTask" @change="taskFilter" checked=true>
-                <label for="completedTask" class="completedTaskLabel">完成</label>
-
-                <input type="checkbox" name="newTask" id="newTask" @change="taskFilter" checked=true>
-                <label for="newTask" class="newTaskLabel">待辦</label>
+                <button class="btn_main add">標籤</button>
+                <button class="btn_main clear" @click="clearSearch()">清除</button>
             </div>
         </div>
+
+		<div class="statusSelector">
+			<input type="checkbox" name="completedTask" id="completedTask" @change="taskFilter" checked=true>
+			<label for="completedTask" class="completedTaskLabel">完成</label>
+
+			<input type="checkbox" name="newTask" id="newTask" @change="taskFilter" checked=true>
+			<label for="newTask" class="newTaskLabel">待辦</label>
+		</div>
 
 		<!-- 待辦事項卡片清單 -->
 		<ul class="taskCardList">
@@ -86,9 +90,14 @@
 				:index="index"
 				:hide="todo.hide"
 				:task_tag="todo.taskTag"
+				:id="todo.id"
 
 				v-on:toggle="toggle(index)"
-				v-on:delete="deleteTodo(index)">
+				v-on:delete="deleteTodo(index)"
+				
+				@delete_task_trans="deleteTask"
+				@copy_task_trans="copyTask"
+				>
 			</todo-item>
 		</ul>
 

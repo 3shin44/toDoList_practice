@@ -2,7 +2,17 @@ Vue.config.debug = true;
 Vue.config.devtools = true;
 
 Vue.component('todo-item', {
-    props: ['title', 'completed', "index", "hide", "task_tag"],
+    props: ["id", 'title', 'completed', "index", "hide", "task_tag"],
+    methods: {
+        delete_task_emit(taskId){
+            this.$emit("delete_task_trans", taskId);
+        },
+        copy_task_emit(taskId){
+            console.log(taskId);
+            this.$emit("copy_task_trans", taskId);
+        }
+        
+    },
     // 每個事項卡片template
     template: `
     <li class="todoItem" :class="{ hide_task: hide }">
@@ -12,7 +22,7 @@ Vue.component('todo-item', {
             </button>
 
             <button class="btn_general btn delete"
-                @click="$emit('delete')">刪除
+                @click="delete_task_emit(id)">刪除
             </button>
 
             <button class="btn_general btn edit"
@@ -20,7 +30,7 @@ Vue.component('todo-item', {
             </button>
 
             <button class="btn_general btn copy"
-                @click="app.copyTask(index)">複製
+                @click="copy_task_emit(id)">複製
             </button> 
 
             <span v-bind:class="{ completed: this.completed }">
@@ -60,6 +70,7 @@ const app = new Vue({
         demoTodo: [], // 此為展示用資料組
         inputTag: '',
         tagsArray: ['never', 'gonna', 'give', 'you', 'up'],
+        idCounter: 0, // 類主鍵計數器
 
     },
     methods: {
@@ -67,8 +78,9 @@ const app = new Vue({
         // 待辦事項CRUD控制
         addTodo() {
             if (!this.newTodo.trim()) return;
-            this.todos.push({ title: this.newTodo, completed: false, hide: false, taskTag: ["tag1", "tag2", "tag3", "tag4", "tag5"] });
-            this.demoTodo.push({ title: this.newTodo, completed: false, hide: false, taskTag: ["tag1", "tag2", "tag3", "tag4", "tag5"] });
+            this.idCounter ++;
+            this.todos.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: ["tag1", "tag2", "tag3", "tag4", "tag5"] });
+            this.demoTodo.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: ["tag1", "tag2", "tag3", "tag4", "tag5"] });
             this.newTodo = '';
         },
 
@@ -86,6 +98,20 @@ const app = new Vue({
             if (confirm('確認清除所有事項?')) {
                 this.todos = [];
             }
+        },
+
+        deleteTask(taskId){
+            
+            // 找到對應的事項ID 陣列索引值
+            let findArrayIndex = 0;
+            for(let i=0; i<this.todos.length; i++){
+                if(this.todos[i].id == taskId){
+                    findArrayIndex = i;
+                    break;
+                }
+            };
+            this.todos.splice(findArrayIndex, 1);
+
         },
 
         // 編輯功能: 點擊後將文字帶入編輯器
@@ -119,10 +145,21 @@ const app = new Vue({
         },
 
         // 複製事項
-        copyTask(index) {
-            let replicateTask = JSON.stringify(this.todos[index]);
+        copyTask(taskId) {
+            console.log("incoming id: ", taskId);
+            let findArrayIndex = 0;
+            for(let i=0; i<this.todos.length; i++){
+                if(this.todos[i].id == taskId){
+                    findArrayIndex = i;
+                    break;
+                }
+            };
+            console.log("target id: ", findArrayIndex);
+            let replicateTask = JSON.stringify(this.todos[findArrayIndex]);
             replicateTask = JSON.parse(replicateTask);
+            this.idCounter++;
             this.todos.push({ 
+                id: this.idCounter,
                 title: replicateTask.title, 
                 completed: replicateTask.completed,
                 hide: replicateTask.hide,
@@ -235,6 +272,14 @@ const app = new Vue({
             }
         },
 
+        // 搜尋功能
+        clearSearch(){
+            this.search = "";
+            for (let i = 0; i < this.todos.length; i++) {
+                this.todos[i].hide = false;
+            }
+        },
+
         // 標籤功能 增/刪/重複檢查
         addTag(inputTag){
             this.tagsArray.push(inputTag);
@@ -282,7 +327,7 @@ const app = new Vue({
     },
 
     mounted() {
-        taskLocalData = localStorage.getItem('taskLocalData');
+        let taskLocalData = localStorage.getItem('taskLocalData');
         // 檢查資料是否存在
         if (taskLocalData == null){
             taskLocalData = localStorage.setItem('taskLocalData', "");
@@ -293,6 +338,13 @@ const app = new Vue({
                 this.demoTodo.push(element);
             });
         }
+
+        let idCounter = localStorage.getItem('idCounter');
+        if (idCounter == null){
+            idCounter = localStorage.setItem('idCounter', "0");
+        }else{
+            this.idCounter = parseInt(idCounter);
+        }
     },
 
     watch: {
@@ -301,6 +353,18 @@ const app = new Vue({
             localStorage.setItem('taskLocalData', '');
             // 寫入新資料
             localStorage.setItem('taskLocalData', JSON.stringify(this.todos));
+
+            // 更新展示陣列
+            this.demoTodo = [];
+            this.todos.forEach( element => {
+                this.demoTodo.push(element);
+            });
+        },
+        idCounter: function(){
+            // 清除現有資料
+            localStorage.setItem('idCounter', '');
+            // 寫入新資料
+            localStorage.setItem('idCounter', this.idCounter);
         }
     },
 });

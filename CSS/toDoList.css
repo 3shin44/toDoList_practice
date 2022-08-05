@@ -68,6 +68,13 @@ body {
     justify-content: start;
 }
 
+.statusSelector{
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+}
+
 .completed {
     text-decoration: line-through;
     color: gray;
