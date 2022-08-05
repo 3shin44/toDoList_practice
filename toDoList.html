@@ -8,7 +8,7 @@
 	<!-- 由 cdn 匯入: vue, ckeditor, fontAwesome -->
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.common.dev.min.js" integrity="sha512-TpgbLHXaTCAZ7ULhjopb1PveTz5Jx6KEQUtMfXhV0m0EArh+6O8ybZjjDN1Yug6oagN6iFm6EoMjuYSiFr0qXQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js" integrity="sha512-XdUZ5nrNkVySQBnnM5vzDqHai823Spoq1W3pJoQwomQja+o4Nw0Ew1ppxo5bhF2vMug6sfibhKWcNJsG8Vj9tg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<!-- <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script> -->
+	<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
 	<script src="https://kit.fontawesome.com/fff1ca20e5.js" crossorigin="anonymous"></script>
 
 	
@@ -19,6 +19,16 @@
 
 </head>
 <body>
+
+	<!-- CK文字編輯器 -->
+	<div class="ckEditorContainer">
+		<div id="ckEditor"></div>
+		<div class="ckEditorBtn">
+			<button id="editBtnConfirm">確認</button>
+			<button id="editBtnCancel">取消</button>
+		</div>
+	</div>
+
 	<!-- Vue 物件 -->
 	<div id="app">
 		<!-- 標題與佈景主題切換器 -->
@@ -100,10 +110,10 @@
 		</div>
 	</div>
 
-	<!-- CK文字編輯器 -->
-	<!-- <div id="ckEditor"></div> -->
+
+
 	
-<!-- <script src="./JS/ckEditor.js"></script> -->
+<script src="./JS/ckEditor.js"></script>
 <script src="./JS/toDoList.js"></script>
 
 </body>

@@ -232,18 +232,28 @@ li {
 }
 
 
-.editorBox {
-    padding: 15px;
-    display: block;
+.ckEditorContainer {
+    display: none;
     position: fixed;
+    z-index: 15;
+    top: 50%;
+    transform: translateY(-50%);
     left: 0;
     right: 0;
-    width: 100%;
+    margin: auto;
+    width: 70%;
+    padding: 15px;
+    background-color: #c1c1c1;
+    border-radius: 5px;
 }
 
-.editorBox button {
-    margin-left: 50%;
-    transform: translateX(-50%);
+.ckEditorBtn{
+    display: flex;
+    justify-content: center;
+}
+
+.ckEditorBtn button {
+margin: 10px 10px 0 10px;
 }
 
 .hide_task{

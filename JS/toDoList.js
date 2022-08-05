@@ -1,5 +1,5 @@
-// Vue.config.debug = true;
-// Vue.config.devtools = true;
+Vue.config.debug = true;
+Vue.config.devtools = true;
 
 Vue.component('todo-item', {
     props: ['title', 'completed', "index", "hide", "task_tag"],
@@ -114,23 +114,7 @@ const app = new Vue({
             ckEditorText = document.querySelector(".ck-editor__main p");
             ckEditorText.innerHTML = this.todos[index].title;
 
-            // 問題: 改了一個會連動所有事項
 
-            // function editTaskText(){
-            //     app.todos[taskIndex].title = ckEditorText.innerHTML;
-            // };
-
-            // let ckEditorMain = document.querySelector(".ck-editor__main");
-
-            // ckEditorMain.addEventListener("keyup", (e)=>{
-            //     if (e.key === 'Enter' || e.keyCode === 13){
-            //         app.todos[taskIndex].title = ckEditorText.innerHTML;
-            //         ckEditorText.innerHTML = "";
-            //         ckEditorMain.removeEventListener("keyup", ()=>{
-            //             console.log("remove");
-            //         });
-            //     }
-            // });
 
         },
 
@@ -195,63 +179,6 @@ const app = new Vue({
             } else {
                 this.demoTodo = [];
             };
-
-
-            // 簡易處理方法: 顯示用的資料為展示組, 展示組來源為原始資料
-            // 而使用者需要篩選時, 則將原始資料拿來過濾, 做完放到展示組裡
-            // 最後porps展示組
-            // [注意] 若要進行CRUD則需要針對原始資料組進行操作
-
-            // // 使用VUE的特性去執行, v-bind去抓完成狀態
-            // // 就不用下面整串判斷
-            // let completedTask = document.getElementById("completedTask");
-            // let newTask = document.getElementById("newTask");
-            // let caseSwtich = "both";
-
-            // // 判斷選取類型 再去switch後續處理
-            // if (completedTask.checked && newTask.checked) {
-            //     caseSwtich = "both";
-            // } else if (completedTask.checked && !newTask.checked) {
-            //     caseSwtich = "completedTask";
-            // } else if (!completedTask.checked && newTask.checked) {
-            //     caseSwtich = "newTask";
-            // } else {
-            //     caseSwtich = "noneOfAll";
-            // };
-
-            // switch (caseSwtich) {
-            //     case "both":
-            //         for (let i = 0; i < this.todos.length; i++) {
-            //             this.todos[i].hide = false;
-            //         }
-            //     break;
-
-            //     case "completedTask":
-            //         for (let i = 0; i < this.todos.length; i++) {
-            //             if (this.todos[i].completed) {
-            //                 this.todos[i].hide = false;
-            //             } else {
-            //                 this.todos[i].hide = true;
-            //             }
-            //         }
-            //     break;
-
-            //     case "newTask":
-            //         for (let i = 0; i < this.todos.length; i++) {
-            //             if (!this.todos[i].completed) {
-            //                 this.todos[i].hide = false;
-            //             } else {
-            //                 this.todos[i].hide = true;
-            //             }
-            //         }
-            //     break;
-
-            //     case "noneOfAll":
-            //         for (let i = 0; i < this.todos.length; i++) {
-            //             this.todos[i].hide = true;
-            //         }
-            //     break;
-            // }
         },
 
         // 佈景主題切換
