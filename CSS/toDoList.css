@@ -270,8 +270,8 @@ margin: 10px 10px 0 10px;
 
 /* tags管理面板 */
 #tagsBox{
-    display: block;
-    /* display: none; */
+    /* display: block; */
+    display: none;
     position: fixed;
     z-index: 10;
     bottom: 20%;
@@ -329,7 +329,7 @@ margin: 10px 10px 0 10px;
 
 /* 事項tags管理面板 */
 #taskTagBox{
-    display: block;
+    /* display: block; */
     display: none;
     position: fixed;
     z-index: 10;

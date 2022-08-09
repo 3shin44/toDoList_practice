@@ -225,37 +225,37 @@ const app = new Vue({
             // 觸發對象: 0: 預設, 1: tagCreator, 2: tag按鈕
             let tagPanel = document.getElementById("tagsBox");
 
-            switch (tirgger) {
-                case 0:
-                    if (tagPanel.style.display == "none" | tagPanel.style.display == ""){
-                        tagPanel.style.display = "block";
-                    }else{
-                        tagPanel.style.display = "none";
-                    };
-                break;
+            // switch (tirgger) {
+            //     case 0:
+            //         if (tagPanel.style.display == "none" | tagPanel.style.display == ""){
+            //             tagPanel.style.display = "block";
+            //         }else{
+            //             tagPanel.style.display = "none";
+            //         };
+            //     break;
 
-                case 1:
-                    let tagCreator = document.getElementById("tagCreator");
-                    if ( document.activeElement == tagCreator){
-                        tagPanel.style.display = "block";
-                    }else{
-                        tagPanel.style.display = "none";
-                    };
-                break;
+            //     case 1:
+            //         let tagCreator = document.getElementById("tagCreator");
+            //         if ( document.activeElement == tagCreator){
+            //             tagPanel.style.display = "block";
+            //         }else{
+            //             tagPanel.style.display = "none";
+            //         };
+            //     break;
 
-                case 2:
-                    let tagBtn = document.querySelectorAll(".tagCreator button");
-                    for(let i=0; i<tagBtn.length;i++){
-                        if( document.activeElement ==  tagBtn[i]){
-                            tagPanel.style.display = "block";
-                            return;
-                        };
-                    };
-                    tagPanel.style.display = "none";
-                break;
-                // 標籤版面會閃跳原因是 當使用者離開輸入框, 再按下新增按鈕時, 此時事件順序為 blur input > somewhere > add/remove Btn
-                // 中間沒辦法用是否按兩個按鈕來判斷, 中間還是有一個事件
-            }
+            //     case 2:
+            //         let tagBtn = document.querySelectorAll(".tagCreator button");
+            //         for(let i=0; i<tagBtn.length;i++){
+            //             if( document.activeElement ==  tagBtn[i]){
+            //                 tagPanel.style.display = "block";
+            //                 return;
+            //             };
+            //         };
+            //         tagPanel.style.display = "none";
+            //     break;
+            //     // 標籤版面會閃跳原因是 當使用者離開輸入框, 再按下新增按鈕時, 此時事件順序為 blur input > somewhere > add/remove Btn
+            //     // 中間沒辦法用是否按兩個按鈕來判斷, 中間還是有一個事件
+            // }
         },
 
         // 搜尋功能
@@ -298,12 +298,12 @@ const app = new Vue({
 
         // 個別待辦事項標籤控制
         openTaskTagPanel(){
-            let taskTagPanel = document.getElementById("taskTagBox");
-            if (taskTagPanel.style.display == "none" | taskTagPanel.style.display == ""){
-                taskTagPanel.style.display = "block";
-            }else{
-                taskTagPanel.style.display = "none";
-            };
+            // let taskTagPanel = document.getElementById("taskTagBox");
+            // if (taskTagPanel.style.display == "none" | taskTagPanel.style.display == ""){
+            //     taskTagPanel.style.display = "block";
+            // }else{
+            //     taskTagPanel.style.display = "none";
+            // };
         },
 
         removeTaskTag(taskIndex, tagIndex){
