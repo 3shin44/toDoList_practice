@@ -79,8 +79,8 @@ const app = new Vue({
         addTodo() {
             if (!this.newTodo.trim()) return;
             this.idCounter ++;
-            this.todos.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: ["tag1", "tag2", "tag3", "tag4", "tag5"] });
-            this.demoTodo.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: ["tag1", "tag2", "tag3", "tag4", "tag5"] });
+            this.todos.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [] });
+            this.demoTodo.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [] });
             this.newTodo = '';
         },
 
@@ -116,31 +116,17 @@ const app = new Vue({
 
         // 編輯功能: 點擊後將文字帶入編輯器
         editBox(index) {
-            let taskIndex = index;
 
+            let ckEditorContainer = document.querySelector(".ckEditorContainer");
+            ckEditorContainer.style.display = "block";
 
-            function resetCKeditor(){
-                
-                // 先清掉預設或先前的p元素
-                let ckEditorText = document.querySelector(".ck-editor__editable_inline p");
-                ckEditorText.remove();
-
-                // 建立新p元素
-                let ckEditorContainer = document.querySelector(".ck-editor__editable_inline");
-                ckEditorContainer.append(document.createElement("p"));
-
-                // 重新獲取元素
-                ckEditorText = document.querySelector(".ck-editor__main p");
-
-                // 返回新元素位址
-                return ckEditorText;
-            }
-
-
-            ckEditorText = document.querySelector(".ck-editor__main p");
+            let ckEditorText = document.querySelector(".ck-editor__main p");
             ckEditorText.innerHTML = this.todos[index].title;
 
-
+            let editBtnCancel = document.getElementById("editBtnCancel");
+            editBtnCancel.addEventListener("click", ()=>{
+                ckEditorContainer.style.display= "none";
+            });
 
         },
 
