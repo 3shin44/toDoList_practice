@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資料庫設計練習</title>
+</head>
+<body>
+    <h1>資料庫設計練習</h1>
+
+    <table>
+        <tr>
+            <td>練習目的</td>
+            <td>依據練習題設定之情境，設計資料庫表格</td>
+        </tr>
+        <tr>
+            <td>需求</td>
+            <td>
+                <ul>
+                    <li>待辦事項CRUD</li>
+                    <li>可設定到期提醒</li>
+                    <li>可自訂標籤</li>
+                    <li>待辦事項可添加自訂標籤</li>
+                    <li>修改歷程記錄</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>細節規範</td>
+            <td>
+                <ul>
+                    <li>表格, 欄位名稱一律大寫（因牽涉資料庫定序，故全大寫）</li>
+                    <li>PK寫法為資料表名稱+ID, 例: 會員資料表為MEMBER，PK命名為：MEMBER_ID</li>
+                    <li>若PK名稱不大重要，如流水號類，則可給予較簡單名稱，如：LOG_ID</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <div class="contentBox">
+        <p>流程</p>
+        <ol>
+            <li>蒐集需求、資料</li>
+            <li>分類，決定關聯性，正規化</li>
+            <li>進行關聯圖繪製</li>
+        </ol>
+    </div>
+
+    <div class="contentBox">
+        <img src="./dbDesigner_export.png" alt="">
+    </div>
+</body>
+</html>
