@@ -2,14 +2,31 @@ Vue.config.debug = true;
 Vue.config.devtools = true;
 
 Vue.component('todo-item', {
-    props: ["id", 'title', 'completed', "index", "hide", "task_tag"],
+    props: ["id", 'title', 'completed', "index", "hide", "task_tag", "options", "task_tag" ],
+    data:{
+        tag_seleceted: ["PPPs"]
+    },
+    created(){
+        console.log("component created");
+        console.log(this.task_tag);
+        console.log(this.tag_seleceted);
+        // this.task_tag.forEach( (element)=>{ tag_seleceted.push(element) } );
+    },
+    mounted(){
+        console.log("component mounted");
+        console.log(this.task_tag);
+        console.log(this.tag_seleceted);
+    },
     methods: {
         delete_task_emit(taskId){
             this.$emit("delete_task_trans", taskId);
         },
         copy_task_emit(taskId){
-            console.log(taskId);
+            // console.log(taskId);
             this.$emit("copy_task_trans", taskId);
+        },
+        task_tag_emit(){
+            this.$emit("task_tag_trans", this.id, tag_seleceted );
         }
         
     },
@@ -33,19 +50,12 @@ Vue.component('todo-item', {
                 @click="copy_task_emit(id)">複製
             </button> 
 
-            <span v-bind:class="{ completed: this.completed }">
+            <span :class="{ completed: this.completed }">
                 {{this.title}}
             </span>
         </div>
         <div class="taskTagContainer">
-            <button class="btn_general btn tagBtn"
-                @click = "app.openTaskTagPanel()"
-            >+
-            </button> 
-
-            <div class="taskTagsRow">
-                <div v-for="(_tag, tagIndex) in task_tag" :key="tagIndex" class="taskTag" @click="app.removeTaskTag(index, tagIndex)">{{ _tag }}</div>
-            </div>
+            <v-select multiple :options="options" v-model="this.tag_seleceted" @input="task_tag_emit()"></v-select>
         </div> 
     </li>
     `,
@@ -61,6 +71,9 @@ Vue.component('task-tag', {
     `,
 });
 
+Vue.component("v-select", VueSelect.VueSelect);
+
+
 const app = new Vue({
     el: '#app',
     data: {
@@ -71,16 +84,38 @@ const app = new Vue({
         inputTag: '',
         tagsArray: ['never', 'gonna', 'give', 'you', 'up'],
         idCounter: 0, // 類主鍵計數器
-
+        inputTagName: "",
+        options: ["foo", "bar", "baz", "AAA", "BBB"],
     },
     methods: {
+
+        // 尋找特定ID, 在todos陣列中索引值
+        findId(targetId){
+            let targetIndex = 0;
+            for(let i=0; i<this.todos.length; i++){
+                if(this.todos[i].id == targetId){
+                    targetIndex = i;
+                    break;
+                }
+            };
+            return targetIndex;
+        },
+
+        // 更新待辦事項標籤列表
+        updateTaskTag(id, tag_seleceted){
+
+
+            this.todos[this.findId(id)].taskTag = [];
+ 
+            tag_seleceted.forEach( ( element )=>{ this.todos[this.findId(id)].taskTag.push( element ) } );
+        },
 
         // 待辦事項CRUD控制
         addTodo() {
             if (!this.newTodo.trim()) return;
             this.idCounter ++;
-            this.todos.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [] });
-            this.demoTodo.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [] });
+            this.todos.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: ["1", "A"] });
+            this.demoTodo.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: ["1", "A"] });
             this.newTodo = '';
         },
 
@@ -218,44 +253,21 @@ const app = new Vue({
         },
 
         // 標籤顯示面板
-        openTagPanel(tirgger=0){
+        // 依據觸發需求顯示/關閉: 0:關閉, 1:顯示
+        tagPanelDisplay(displayCode = 0){
+            let tagsBox = document.getElementById("tagsBox");
+            switch (displayCode) {
+                case 0:
+                    tagsBox.style.display = "none";
+                break;
 
-            // 透過vue bind去解決
+                case 1:
+                    tagsBox.style.display = "block";                  
+                break;
 
-            // 觸發對象: 0: 預設, 1: tagCreator, 2: tag按鈕
-            let tagPanel = document.getElementById("tagsBox");
-
-            // switch (tirgger) {
-            //     case 0:
-            //         if (tagPanel.style.display == "none" | tagPanel.style.display == ""){
-            //             tagPanel.style.display = "block";
-            //         }else{
-            //             tagPanel.style.display = "none";
-            //         };
-            //     break;
-
-            //     case 1:
-            //         let tagCreator = document.getElementById("tagCreator");
-            //         if ( document.activeElement == tagCreator){
-            //             tagPanel.style.display = "block";
-            //         }else{
-            //             tagPanel.style.display = "none";
-            //         };
-            //     break;
-
-            //     case 2:
-            //         let tagBtn = document.querySelectorAll(".tagCreator button");
-            //         for(let i=0; i<tagBtn.length;i++){
-            //             if( document.activeElement ==  tagBtn[i]){
-            //                 tagPanel.style.display = "block";
-            //                 return;
-            //             };
-            //         };
-            //         tagPanel.style.display = "none";
-            //     break;
-            //     // 標籤版面會閃跳原因是 當使用者離開輸入框, 再按下新增按鈕時, 此時事件順序為 blur input > somewhere > add/remove Btn
-            //     // 中間沒辦法用是否按兩個按鈕來判斷, 中間還是有一個事件
-            // }
+            }
+    
+            
         },
 
         // 搜尋功能

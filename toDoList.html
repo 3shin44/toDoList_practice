@@ -11,6 +11,10 @@
 	<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
 	<script src="https://kit.fontawesome.com/fff1ca20e5.js" crossorigin="anonymous"></script>
 
+	<!-- vue-select 套件 -->
+	<script src="https://unpkg.com/vue-select@3.0.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+
 	
 	<!-- 連結之CSS順序: CSS reset, themeSwitch, mainPage(toDoList)  -->
 	<link rel="stylesheet" href="./CSS/reset200802.css">
@@ -46,7 +50,6 @@
 		<!-- 輸入/搜尋/標籤建立功能 -->
 		<div class="wrapper">
 		    <div class="controls">
-				<p></p>
 				<i class="fa-solid fa-plus">新增事項</i>
 				<input v-model="newTodo" @keyup.enter="addTodo" type="text" placeholder="輸入待辦事項" autofocus>
             <div>
@@ -57,11 +60,20 @@
 
         <div class="tagCreator">
 			<i class="fa-solid fa-tags">建立標籤</i>
-            <input type="text" id="tagCreator" placeholder="輸入類別標籤 (使用按鈕或ENTER新增)" v-model="inputTag" @keyup.enter="createTag()" @focus="openTagPanel(1)" @blur="openTagPanel(1)">
-            <div>
-                <button class="btn_main add" @click="createTag(); openTagPanel(2)">新增</button>
-                <button class="btn_main clear" @click="deleteAllTag(); openTagPanel(2)">清除</button>
+            <input type="text" id="tagCreator" placeholder="輸入類別標籤 (使用按鈕或ENTER新增)" v-model="inputTag" @keyup.enter="createTag()" @focus="tagPanelDisplay(1)">
+			<!-- @blur="tagPanelDisplay(0)" -->
+			<div>
+                <button class="btn_main add" @click="createTag(); openTagPanel(1)">新增</button>
+                <button class="btn_main clear" @click="deleteAllTag(); openTagPanel(1)">清除</button>
             </div>
+
+			<!-- 新增標籤面板 -->
+			<div id="tagsBox">
+				<div class="tags">
+					<div v-for="(_tag, index) in tagsArray" :key="index" class="tag" @click="removeTag(index)">{{ _tag }}</div>
+				</div>
+				<button id="tagsBoxClose" @click="tagPanelDisplay(0)">x</button>
+			</div>
 
         </div>
 
@@ -92,23 +104,22 @@
 				:task_tag="todo.taskTag"
 				:id="todo.id"
 
+				:options = app.options
+
 				v-on:toggle="toggle(index)"
 				v-on:delete="deleteTodo(index)"
 				
 				@delete_task_trans="deleteTask"
 				@copy_task_trans="copyTask"
+				@task_tag_trans="updateTaskTag"
 				>
+				
 			</todo-item>
+
 		</ul>
 
 
-		<!-- 新增標籤面板 -->
-		<div id="tagsBox">
-            <div class="tags">
-                <div v-for="(_tag, index) in tagsArray" :key="index" class="tag" @click="removeTag(index)">{{ _tag }}</div>
-            </div>
-            <button id="tagsBoxClose" @click="openTagPanel()">x</button>
-		</div>
+
 
 		<!-- 待辦事項 標籤管理面板 -->
 		<div id="taskTagBox">

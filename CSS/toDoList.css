@@ -35,33 +35,25 @@ body {
 }
 
 /* 使用者輸入功能: 事項 標籤 搜尋 */
-.controls {
+.wrapper{
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    padding: 5px;
-}
-
-.controls input {
-    min-width: 75%;
-}
-.controls div{
-    width: fit-content;
-    display: flex;
-    justify-content: start;
     align-items: center;
 }
-
-.search, .tagCreator{
+.controls, .search, .tagCreator{
+    position: relative;
+    width: 70%;
     padding: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.search input, .tagCreator input {
-    min-width: 75%;
+.controls input, .search input, .tagCreator input {
+    min-width: 50%;
 }
-.search div, .tagCreator div {
+.controls div, .search div, .tagCreator div {
     width: fit-content;
     display: flex;
     align-items: center;
@@ -96,7 +88,7 @@ input {
 
 .taskCardList{
     margin: auto;
-    max-width: 70%;
+    width: 70%;
     padding: 15px;
 }
 
@@ -193,6 +185,9 @@ li {
 }
 
 .taskCard span{
+    /* width: 60%; */
+    padding: 5px;
+    word-wrap: break-word;
     margin-left: 5px;
 }
 
@@ -272,13 +267,16 @@ margin: 10px 10px 0 10px;
 #tagsBox{
     /* display: block; */
     display: none;
-    position: fixed;
+    position: absolute;
     z-index: 10;
-    bottom: 20%;
-    left: 60%;
-    width: 30%;
-    background-color: rgba(253, 143, 69, 0.5);
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 80%;
+    background-color: rgb(252, 164, 70);
     border-radius: 5px;
+    min-height: 47px;
 }
 
 #tagsBoxClose{
