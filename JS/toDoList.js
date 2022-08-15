@@ -4,16 +4,15 @@ Vue.config.devtools = true;
 Vue.component('todo-item', {
     props: ["id", 'title', 'completed', "index", "hide", "task_tag", "options", "task_tag" ],
     data:{
-        tag_seleceted: ["PPPs"]
+        tag_seleceted: ["AAA"]
     },
     created(){
         console.log("component created");
         console.log(this.task_tag);
         console.log(this.tag_seleceted);
-        // this.task_tag.forEach( (element)=>{ tag_seleceted.push(element) } );
+        // this.task_tag.forEach( (element)=>{ this.tag_seleceted.push(element) } );
     },
     mounted(){
-        console.log("component mounted");
         console.log(this.task_tag);
         console.log(this.tag_seleceted);
     },
@@ -103,10 +102,8 @@ const app = new Vue({
 
         // 更新待辦事項標籤列表
         updateTaskTag(id, tag_seleceted){
-
-
+            // 清除原有標籤資料陣列, 再更新
             this.todos[this.findId(id)].taskTag = [];
- 
             tag_seleceted.forEach( ( element )=>{ this.todos[this.findId(id)].taskTag.push( element ) } );
         },
 
@@ -114,8 +111,8 @@ const app = new Vue({
         addTodo() {
             if (!this.newTodo.trim()) return;
             this.idCounter ++;
-            this.todos.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: ["1", "A"] });
-            this.demoTodo.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: ["1", "A"] });
+            this.todos.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [] });
+            this.demoTodo.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [] });
             this.newTodo = '';
         },
 
