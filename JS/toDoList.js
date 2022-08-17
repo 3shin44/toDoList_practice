@@ -3,18 +3,13 @@ Vue.config.devtools = true;
 
 Vue.component('todo-item', {
     props: ["id", 'title', 'completed', "index", "hide", "task_tag", "options", "task_tag" ],
-    data:{
-        tag_seleceted: ["AAA"]
-    },
+    data: function () {
+        return {
+            tag_seleceted: []
+        }
+      },
     created(){
-        console.log("component created");
-        console.log(this.task_tag);
-        console.log(this.tag_seleceted);
-        // this.task_tag.forEach( (element)=>{ this.tag_seleceted.push(element) } );
-    },
-    mounted(){
-        console.log(this.task_tag);
-        console.log(this.tag_seleceted);
+        this.task_tag.forEach( (element)=>{ this.tag_seleceted.push(element) } );
     },
     methods: {
         delete_task_emit(taskId){
@@ -25,7 +20,8 @@ Vue.component('todo-item', {
             this.$emit("copy_task_trans", taskId);
         },
         task_tag_emit(){
-            this.$emit("task_tag_trans", this.id, tag_seleceted );
+            console.log("compo: ", this.tag_seleceted);
+            this.$emit("task_tag_trans", this.id, this.tag_seleceted );
         }
         
     },
@@ -54,7 +50,7 @@ Vue.component('todo-item', {
             </span>
         </div>
         <div class="taskTagContainer">
-            <v-select multiple :options="options" v-model="this.tag_seleceted" @input="task_tag_emit()"></v-select>
+            <v-select multiple :options="options" v-model="tag_seleceted" @input="task_tag_emit()"></v-select>
         </div> 
     </li>
     `,
@@ -103,16 +99,27 @@ const app = new Vue({
         // 更新待辦事項標籤列表
         updateTaskTag(id, tag_seleceted){
             // 清除原有標籤資料陣列, 再更新
+
             this.todos[this.findId(id)].taskTag = [];
             tag_seleceted.forEach( ( element )=>{ this.todos[this.findId(id)].taskTag.push( element ) } );
+
+            // 清除現有資料
+            localStorage.setItem('taskLocalData', '');
+            // 寫入新資料
+            localStorage.setItem('taskLocalData', JSON.stringify(this.todos));
+            // 更新展示資料 (見鬼 不會觸發WATCH機制, 為啥改變物件裡的陣列不會觸發改變??)
+            this.demoTodo = [];
+            this.todos.forEach( element => {
+                this.demoTodo.push(element);
+            });
         },
 
         // 待辦事項CRUD控制
         addTodo() {
             if (!this.newTodo.trim()) return;
             this.idCounter ++;
-            this.todos.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [] });
-            this.demoTodo.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [] });
+            this.todos.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [this.idCounter] });
+            this.demoTodo.push({ id: this.idCounter, title: this.newTodo, completed: false, hide: false, taskTag: [this.idCounter] });
             this.newTodo = '';
         },
 
